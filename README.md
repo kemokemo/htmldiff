@@ -49,7 +49,7 @@ For more information, please visit [the official website](https://github.com/gob
 
 ## License
 
-[MIT](https://github.com/kemokemo/html/blob/master/LICENSE)
+[MIT](https://github.com/kemokemo/htmldiff/blob/master/LICENSE)
 
 ## Authors
 
