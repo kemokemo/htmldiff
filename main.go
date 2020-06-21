@@ -12,15 +12,15 @@ import (
 )
 
 var (
-	before   = flag.String("before", "", "set the path to the before html file.")
-	after = flag.String("after", "", "set the path to the after html file.")
+	before = flag.String("before", "", "set the path to the before html file.")
+	after  = flag.String("after", "", "set the path to the after html file.")
 	out    = flag.String("out", "", "set the path to save the diff html file.")
-    ah = flag.Bool("ah", true, "true: use after header, false: use before header")
+	ah     = flag.Bool("ah", true, "true: use after header, false: use before header")
 
-	bPath   string
-	aPath string
-	oPath    string
-    useAfterHeader bool
+	bPath          string
+	aPath          string
+	oPath          string
+	useAfterHeader bool
 )
 
 func init() {
@@ -28,7 +28,7 @@ func init() {
 	bPath = filepath.Clean(*before)
 	aPath = filepath.Clean(*after)
 	oPath = filepath.Clean(*out)
-    useAfterHeader = *ah
+	useAfterHeader = *ah
 }
 
 func main() {
@@ -66,12 +66,12 @@ func run() int {
 		return 1
 	}
 
-    header :=bytes.NewBufferString("")
-    if(useAfterHeader){
-      header = aHeader
-    } else {
-      header = bHeader
-    }
+	header := bytes.NewBufferString("")
+	if useAfterHeader {
+		header = aHeader
+	} else {
+		header = bHeader
+	}
 
 	var cfg = &diff.Config{
 		Granularity:  5,
@@ -88,10 +88,10 @@ func run() int {
 	}
 	diffBody := res[0]
 
-    dir := filepath.Dir(oPath)
-    if _, err := os.Stat(dir); os.IsNotExist(err) {
-        os.MkdirAll(dir, 0777)
-    }
+	dir := filepath.Dir(oPath)
+	if _, err := os.Stat(dir); os.IsNotExist(err) {
+		os.MkdirAll(dir, 0777)
+	}
 	fo, err := os.Create(oPath)
 	if err != nil {
 		log.Println("failed to create target html file:", err)
