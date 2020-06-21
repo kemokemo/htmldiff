@@ -35,6 +35,8 @@ If you don't use the `go module`, you need to `go get` the following libraries b
 - github.com/documize/html-diff
 - github.com/gobuffalo/packr/v2
 
+I would like to take this opportunity to thank the authors of these wonderful libraries and tools. Thank you!
+
 ### Note
 
 Tool `packr2` is used to convert template file `template/index.html` to `packrd/packed-packr.go` for inclusion in the binary. Tool `packr2` is installed as follows.
@@ -52,3 +54,4 @@ For more information, please visit [the official website](https://github.com/gob
 ## Authors
 
 [kemokemo](https://github.com/kemokemo)
+
