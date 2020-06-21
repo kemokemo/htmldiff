@@ -10,7 +10,7 @@ This tool compares old and new versions of html and generates color-coded html i
 
 ### Binary
 
-Get the latest version from the release page, and download the archive file for your operating system/architecture. Unpack the archive, and put the binary somewhere in your `$PATH`.
+Get the latest version from [the release page](https://github.com/kemokemo/htmldiff/releases/latest), and download the archive file for your operating system/architecture. Unpack the archive, and put the binary somewhere in your `$PATH`.
 
 ## Usage
 
