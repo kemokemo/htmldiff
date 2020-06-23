@@ -19,14 +19,14 @@ const (
 )
 
 var (
-	out            string
-	useAfterHeader bool
-	help           bool
+	out          string
+	useNewHeader bool
+	help         bool
 )
 
 func init() {
 	flag.StringVar(&out, "o", "diff.html", "output filename")
-	flag.BoolVar(&useAfterHeader, "ah", true, "true: use after header, false: use before header")
+	flag.BoolVar(&useNewHeader, "nh", true, "true: use new header, false: use old header")
 	flag.BoolVar(&help, "h", false, "display help")
 	flag.Parse()
 }
@@ -80,7 +80,7 @@ func run() int {
 	}
 
 	header := bytes.NewBufferString("")
-	if useAfterHeader {
+	if useNewHeader {
 		header = nHeader
 	} else {
 		header = oHeader

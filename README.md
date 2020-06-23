@@ -17,14 +17,14 @@ Get the latest version from [the release page](https://github.com/kemokemo/htmld
 ```sh
 $ htmldiff -h
 Usage: htmldiff [<option>...] <old html> <new html>
-  -ah
-    	true: use after header, false: use before header (default true)
   -h	display help
+  -nh
+    	true: use new header, false: use old header (default true)
   -o string
-    	output filename (default "diff.html")
+    	output filename (default "diff.html")j
 ```
 
-When comparing two html files, you need to choose which header to use. By default, it uses the header of the html file specified in `--after`. To use the header of `--before` specifies `--ah` as an argument, as shown below. ( `--ah` is a flag that means "use **a**fter html's  **h**eader". )
+When comparing two html files, you need to choose which header to use. By default, it uses the new header. To use the header of the old html file, set `-nh=false` flag. ( `-nh` means "use **n**ew **h**eader". )
 
 ### Example
 
@@ -32,10 +32,10 @@ When comparing two html files, you need to choose which header to use. By defaul
 htmldiff -o=diff/index.html v1/index.html v2/index.html
 ```
 
-If you use the header of `v1/index.html`, set `-ah=false` flag.
+If you use the header of `v1/index.html`, set `-nh=false` flag.
 
 ```sh
-htmldiff -o=diff/index.html -ah=false v1/index.html v2/index.html
+htmldiff -o=diff/index.html -nh=false v1/index.html v2/index.html
 ```
 
 ## Information for developers
