@@ -3,7 +3,7 @@ package main
 import (
 	"bytes"
 	"flag"
-	"log"
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -11,24 +11,24 @@ import (
 	htmldiff "github.com/kemokemo/htmldiff/lib"
 )
 
-var (
-	before = flag.String("before", "", "set the path to the before html file.")
-	after  = flag.String("after", "", "set the path to the after html file.")
-	out    = flag.String("out", "", "set the path to save the diff html file.")
-	ah     = flag.Bool("ah", true, "true: use after header, false: use before header")
+const (
+	exitOk = iota
+	exitInvalidArg
+	exitInvalidHTML
+	exitFailedOperation
+)
 
-	bPath          string
-	aPath          string
-	oPath          string
+var (
+	out            string
 	useAfterHeader bool
+	help           bool
 )
 
 func init() {
+	flag.StringVar(&out, "o", "diff.html", "output filename")
+	flag.BoolVar(&useAfterHeader, "ah", true, "true: use after header, false: use before header")
+	flag.BoolVar(&help, "h", false, "display help")
 	flag.Parse()
-	bPath = filepath.Clean(*before)
-	aPath = filepath.Clean(*after)
-	oPath = filepath.Clean(*out)
-	useAfterHeader = *ah
 }
 
 func main() {
@@ -36,41 +36,54 @@ func main() {
 }
 
 func run() int {
-	fb, err := os.Open(bPath)
-	if err != nil {
-		log.Println("failed to open base html file:", err)
-		return 1
-	}
-	defer fb.Close()
-
-	bHeader := bytes.NewBufferString("")
-	bBody := bytes.NewBufferString("")
-	err = htmldiff.ReadHeaderAndBody(fb, bHeader, bBody)
-	if err != nil {
-		log.Println("failed to read header and body from base html:", err)
-		return 1
+	if help {
+		fmt.Fprintf(os.Stdout, "Usage: htmldiff [<option>...] <old html> <new html>\n")
+		flag.PrintDefaults()
+		return exitOk
 	}
 
-	fa, err := os.Open(aPath)
-	if err != nil {
-		log.Println("failed to open target html file:", err)
-		return 1
+	args := flag.Args()
+	if len(args) != 2 {
+		fmt.Fprintf(os.Stderr, "Please set args.\n Usage: htmldiff [<option>...] <old html> <new html>\n")
+		flag.PrintDefaults()
+		return exitInvalidArg
 	}
-	defer fa.Close()
 
-	aHeader := bytes.NewBufferString("")
-	aBody := bytes.NewBufferString("")
-	err = htmldiff.ReadHeaderAndBody(fa, aHeader, aBody)
+	fOld, err := os.Open(args[0])
 	if err != nil {
-		log.Println("failed to read body from target html:", err)
-		return 1
+		fmt.Fprintf(os.Stderr, "failed to open the old html: %v\n", err)
+		return exitInvalidArg
+	}
+	defer fOld.Close()
+
+	fNew, err := os.Open(args[1])
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "failed to open the new html: %v\n", err)
+		return exitInvalidArg
+	}
+	defer fNew.Close()
+
+	oHeader := bytes.NewBufferString("")
+	oBody := bytes.NewBufferString("")
+	err = htmldiff.ReadHeaderAndBody(fOld, oHeader, oBody)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "failed to read header and body from the old html: %v\n", err)
+		return exitInvalidHTML
+	}
+
+	nHeader := bytes.NewBufferString("")
+	nBody := bytes.NewBufferString("")
+	err = htmldiff.ReadHeaderAndBody(fNew, nHeader, nBody)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "failed to read header and body from the new html: %v\n", err)
+		return exitInvalidHTML
 	}
 
 	header := bytes.NewBufferString("")
 	if useAfterHeader {
-		header = aHeader
+		header = nHeader
 	} else {
-		header = bHeader
+		header = oHeader
 	}
 
 	var cfg = &diff.Config{
@@ -81,29 +94,33 @@ func run() int {
 		CleanTags:    []string{""},
 	}
 
-	res, err := cfg.HTMLdiff([]string{bBody.String(), aBody.String()})
+	res, err := cfg.HTMLdiff([]string{oBody.String(), nBody.String()})
 	if err != nil {
-		log.Println("failed to execute HTMLdiff", err)
-		return 1
+		fmt.Fprintf(os.Stderr, "failed to generate diff: %v\n", err)
+		return exitFailedOperation
 	}
 	diffBody := res[0]
 
-	dir := filepath.Dir(oPath)
+	dir := filepath.Dir(out)
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
-		os.MkdirAll(dir, 0777)
+		err = os.MkdirAll(dir, 0777)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "failed to create directory to save diff file: %v\n", err)
+			return exitInvalidArg
+		}
 	}
-	fo, err := os.Create(oPath)
+	fOut, err := os.Create(out)
 	if err != nil {
-		log.Println("failed to create target html file:", err)
-		return 1
+		fmt.Fprintf(os.Stderr, "failed to create diff html file: %v\n", err)
+		return exitInvalidArg
 	}
-	defer fo.Close()
+	defer fOut.Close()
 
-	err = htmldiff.CreateHTML(fo, header.String(), diffBody)
+	err = htmldiff.CreateHTML(fOut, header.String(), diffBody)
 	if err != nil {
-		log.Println("failed to create diff html data:", err)
-		return 1
+		fmt.Fprintf(os.Stderr, "failed to save the diff html: %v\n", err)
+		return exitFailedOperation
 	}
 
-	return 0
+	return exitOk
 }

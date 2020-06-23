@@ -14,14 +14,29 @@ Get the latest version from [the release page](https://github.com/kemokemo/htmld
 
 ## Usage
 
-Please set the old version of html file for `--before` and the new version for `--after`.  
-Then, the color-coded html files with diff format will be saved to the html file specified by `--out`.
-
 ```sh
-htmldiff --before=v1/index.html --after=v2/index.html --out=v2-diff-with-v1/index.html
+$ htmldiff -h
+Usage: htmldiff [<option>...] <old html> <new html>
+  -ah
+    	true: use after header, false: use before header (default true)
+  -h	display help
+  -o string
+    	output filename (default "diff.html")
 ```
 
 When comparing two html files, you need to choose which header to use. By default, it uses the header of the html file specified in `--after`. To use the header of `--before` specifies `--ah` as an argument, as shown below. ( `--ah` is a flag that means "use **a**fter html's  **h**eader". )
+
+### Example
+
+```sh
+htmldiff -o=diff/index.html v1/index.html v2/index.html
+```
+
+If you use the header of `v1/index.html`, set `-ah=false` flag.
+
+```sh
+htmldiff -o=diff/index.html -ah=false v1/index.html v2/index.html
+```
 
 ## Information for developers
 
@@ -51,7 +66,7 @@ For more information, please visit [the official website](https://github.com/gob
 
 [MIT](https://github.com/kemokemo/htmldiff/blob/master/LICENSE)
 
-## Authors
+## Author
 
 [kemokemo](https://github.com/kemokemo)
 
