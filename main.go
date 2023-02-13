@@ -22,12 +22,14 @@ var (
 	out          string
 	useNewHeader bool
 	help         bool
+	ver          bool
 )
 
 func init() {
 	flag.StringVar(&out, "o", "diff.html", "output filename")
 	flag.BoolVar(&useNewHeader, "nh", true, "true: use new header, false: use old header")
 	flag.BoolVar(&help, "h", false, "display help")
+	flag.BoolVar(&ver, "v", false, "display version")
 	flag.Parse()
 }
 
@@ -39,6 +41,10 @@ func run() int {
 	if help {
 		fmt.Fprintf(os.Stdout, "Usage: htmldiff [<option>...] <old html> <new html>\n")
 		flag.PrintDefaults()
+		return exitOk
+	}
+	if ver {
+		fmt.Fprintf(os.Stdout, "htmldiff version %s.%s\n", Version, Revision)
 		return exitOk
 	}
 
@@ -79,7 +85,7 @@ func run() int {
 		return exitInvalidHTML
 	}
 
-	header := bytes.NewBufferString("")
+	var header *bytes.Buffer
 	if useNewHeader {
 		header = nHeader
 	} else {
