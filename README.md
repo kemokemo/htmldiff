@@ -8,6 +8,26 @@ This tool compares old and new versions of html and generates color-coded html i
 
 ## Install
 
+### Homebrew
+
+```sh
+brew install kemokemo/tap/htmldiff
+```
+
+### Scoop
+
+First, add my scoop-bucket.
+
+```sh
+scoop bucket add kemokemo-bucket https://github.com/kemokemo/scoop-bucket.git
+```
+
+Next, install this app by running the following.
+
+```sh
+scoop install htmldiff
+```
+
 ### Binary
 
 Get the latest version from [the release page](https://github.com/kemokemo/htmldiff/releases/latest), and download the archive file for your operating system/architecture. Unpack the archive, and put the binary somewhere in your `$PATH`.
@@ -64,7 +84,7 @@ For more information, please visit [the official website](https://github.com/gob
 
 ## License
 
-[MIT](https://github.com/kemokemo/htmldiff/blob/master/LICENSE)
+[MIT](https://github.com/kemokemo/htmldiff/blob/main/LICENSE)
 
 ## Author
 
