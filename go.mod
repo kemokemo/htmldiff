@@ -6,7 +6,7 @@ require (
 	github.com/andybalholm/cascadia v1.2.0
 	github.com/documize/html-diff v0.0.0-20160503140253-f61c192c7796
 	github.com/gobuffalo/packr/v2 v2.8.0
-	golang.org/x/net v0.0.0-20200602114024-627f9648deb9
+	golang.org/x/net v0.7.0
 )
 
 require (
@@ -20,5 +20,5 @@ require (
 	github.com/mb0/diff v0.0.0-20131118162322-d8d9a906c24d // indirect
 	github.com/sirupsen/logrus v1.4.2 // indirect
 	golang.org/x/crypto v0.0.0-20191122220453-ac88ee75c92c // indirect
-	golang.org/x/sys v0.0.0-20200323222414-85ca7c5b95cd // indirect
+	golang.org/x/sys v0.5.0 // indirect
 )
