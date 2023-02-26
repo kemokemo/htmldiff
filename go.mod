@@ -19,6 +19,7 @@ require (
 	github.com/markbates/safe v1.0.1 // indirect
 	github.com/mb0/diff v0.0.0-20131118162322-d8d9a906c24d // indirect
 	github.com/sirupsen/logrus v1.4.2 // indirect
-	golang.org/x/crypto v0.0.0-20191122220453-ac88ee75c92c // indirect
+	golang.org/x/crypto v0.1.0 // indirect
 	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/term v0.5.0 // indirect
 )
