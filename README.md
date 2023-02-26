@@ -58,30 +58,6 @@ If you use the header of `v1/index.html`, set `-nh=false` flag.
 htmldiff -o=diff/index.html -nh=false v1/index.html v2/index.html
 ```
 
-## Information for developers
-
-### How to build
-
-It is recommended to build with the go module.
-
-If you don't use the `go module`, you need to `go get` the following libraries before building.
-
-- github.com/andybalholm/cascadia
-- github.com/documize/html-diff
-- github.com/gobuffalo/packr/v2
-
-I would like to take this opportunity to thank the authors of these wonderful libraries and tools. Thank you!
-
-### Note
-
-Tool `packr2` is used to convert template file `template/index.html` to `packrd/packed-packr.go` for inclusion in the binary. Tool `packr2` is installed as follows.
-
-```sh
-go get -u github.com/gobuffalo/packr/v2/packr2
-```
-
-For more information, please visit [the official website](https://github.com/gobuffalo/packr/tree/master/v2).
-
 ## License
 
 [MIT](https://github.com/kemokemo/htmldiff/blob/main/LICENSE)
