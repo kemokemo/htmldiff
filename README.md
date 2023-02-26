@@ -1,6 +1,6 @@
 # htmldiff
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![CircleCI](https://circleci.com/gh/kemokemo/htmldiff.svg?style=svg)](https://circleci.com/gh/kemokemo/htmldiff) [![codecov](https://codecov.io/gh/kemokemo/htmldiff/branch/master/graph/badge.svg)](https://codecov.io/gh/kemokemo/htmldiff) [![Go Report Card](https://goreportcard.com/badge/github.com/kemokemo/htmldiff)](https://goreportcard.com/report/github.com/kemokemo/htmldiff)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![test-and-build](https://github.com/kemokemo/htmldiff/actions/workflows/test-and-build.yml/badge.svg)](https://github.com/kemokemo/htmldiff/actions/workflows/test-and-build.yml)
 
 This tool compares old and new versions of html and generates color-coded html in a diff format.
 
